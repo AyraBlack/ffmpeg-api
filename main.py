@@ -11,10 +11,15 @@ def convert():
     output_path = '/tmp/output.mp3'
     file.save(input_path)
 
-    subprocess.run(['ffmpeg', '-i', input_path, '-vn', '-ar', '44100', '-ac', '2', '-b:a', '192k', output_path])
+    subprocess.run([
+        'ffmpeg', '-i', input_path,
+        '-vn', '-ar', '44100', '-ac', '2', '-b:a', '192k',
+        output_path
+    ])
 
     return send_file(output_path, as_attachment=True)
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
+    # Railway sets $PORT automatically — do NOT use 5000 fallback!
+    port = int(os.environ.get("PORT", 80))
     app.run(host='0.0.0.0', port=port)
