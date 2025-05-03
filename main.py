@@ -15,11 +15,6 @@ def convert():
         'ffmpeg', '-i', input_path,
         '-vn', '-ar', '44100', '-ac', '2', '-b:a', '192k',
         output_path
-    ])
+    ], check=True)
 
     return send_file(output_path, as_attachment=True)
-
-if __name__ == '__main__':
-    # Railway sets $PORT automatically — do NOT use 5000 fallback!
-    port = int(os.environ.get("PORT", 80))
-    app.run(host='0.0.0.0', port=port)
